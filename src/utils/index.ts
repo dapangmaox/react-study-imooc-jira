@@ -16,7 +16,7 @@ export const cleanObject = (object: object) => {
   return result;
 };
 
-export const isFalsy = (value: any) => (value === 0 ? false : !value);
+export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
 export const useMount = (callback: () => void) => {
   useEffect(() => {
@@ -26,7 +26,7 @@ export const useMount = (callback: () => void) => {
 };
 
 // how it works?
-export const useDebounce = (value: any, delay?: number) => {
+export const useDebounce = <T>(value: T, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
@@ -42,4 +42,22 @@ export const useDebounce = (value: any, delay?: number) => {
   // console.log(`value: ${JSON.stringify(value)}, debouncedValue: ${JSON.stringify(debouncedValue)}`);
 
   return debouncedValue;
+};
+
+export const useArray = <T>(initialValue: T[]) => {
+  const [value, setValue] = useState(initialValue);
+
+  const clear = () => {
+    setValue([]);
+  };
+
+  const removeIndex = (index: number) => {
+    setValue([...value].splice(index, 1));
+  };
+
+  const add = (element: T) => {
+    setValue([...value, element]);
+  };
+
+  return { value, setValue, clear, removeIndex, add };
 };
