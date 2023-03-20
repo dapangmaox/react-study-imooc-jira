@@ -1,0 +1,13 @@
+{
+  "root": true,
+  "overrides": [
+    {
+      "files": [
+        "*.tsx"
+      ],
+      "rules": {
+        "jsx-a11y/anchor-is-valid": 0
+      }
+    }
+  ]
+}

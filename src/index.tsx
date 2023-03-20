@@ -1,18 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { loadDevTools } from 'jira-dev-tool';
 import { AppProviders } from 'context';
+import 'antd/dist/reset.css';
+import { ConfigProvider } from 'antd';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 loadDevTools(() => {
   root.render(
     <>
-      <AppProviders>
-        <App />
-      </AppProviders>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: 'rgb(0, 82, 204)',
+          },
+        }}
+      >
+        <AppProviders>
+          <App />
+        </AppProviders>
+      </ConfigProvider>
     </>
   );
 });
