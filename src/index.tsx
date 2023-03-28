@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { loadDevTools } from 'jira-dev-tool';
+import { loadServer, DevTools } from 'jira-dev-tool';
 import { AppProviders } from 'context';
 import 'antd/dist/reset.css';
 import { ConfigProvider } from 'antd';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-loadDevTools(() => {
+loadServer(() => {
   root.render(
     <>
       <ConfigProvider
@@ -19,6 +19,7 @@ loadDevTools(() => {
         }}
       >
         <AppProviders>
+          <DevTools />
           <App />
         </AppProviders>
       </ConfigProvider>
