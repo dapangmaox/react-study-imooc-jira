@@ -32,7 +32,7 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
       return Promise.reject({ message: '请重新登录' });
     }
 
-    const data = response.json();
+    const data = await response.json();
     if (response.ok) {
       return data;
     } else {
