@@ -3,7 +3,7 @@ import { Typography } from 'antd';
 import { useState } from 'react';
 import { useProjects } from 'utils/project';
 import { useUsers } from 'utils/user';
-import { useDebounce } from '../../utils';
+import { useDebounce, useDocumentTitle } from '../../utils';
 import { List } from './list';
 import { SearchPanel } from './search-panel';
 
@@ -17,7 +17,7 @@ export const ProjectListScreen = () => {
   const { data: list, isLoading, error } = useProjects(debouncedParam);
   const { data: users } = useUsers();
 
-  console.log(error);
+  useDocumentTitle('项目列表', false);
 
   return (
     <Container>
