@@ -1,17 +1,14 @@
 import styled from '@emotion/styled';
 import { Typography } from 'antd';
-import { useState } from 'react';
 import { useProjects } from 'utils/project';
+import { useUrlQueryParam } from 'utils/url';
 import { useUsers } from 'utils/user';
 import { useDebounce, useDocumentTitle } from '../../utils';
 import { List } from './list';
 import { SearchPanel } from './search-panel';
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
-    name: '',
-    personId: '',
-  });
+  const [param, setParam] = useUrlQueryParam(['name', 'personId']);
   const debouncedParam = useDebounce(param, 200);
 
   const { data: list, isLoading, error } = useProjects(debouncedParam);
