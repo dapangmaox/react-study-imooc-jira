@@ -1,20 +1,18 @@
 import styled from '@emotion/styled';
 import { Typography } from 'antd';
 import { useProjects } from 'utils/project';
-import { useUrlQueryParam } from 'utils/url';
 import { useUsers } from 'utils/user';
 import { useDebounce, useDocumentTitle } from '../../utils';
 import { List } from './list';
 import { SearchPanel } from './search-panel';
+import { useProjectsSearchParams } from './util';
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useUrlQueryParam(['name', 'personId']);
-  const debouncedParam = useDebounce(param, 200);
-
-  const { data: list, isLoading, error } = useProjects(debouncedParam);
-  const { data: users } = useUsers();
-
   useDocumentTitle('项目列表', false);
+
+  const [param, setParam] = useProjectsSearchParams();
+  const { data: list, isLoading, error } = useProjects(useDebounce(param, 200));
+  const { data: users } = useUsers();
 
   return (
     <Container>
