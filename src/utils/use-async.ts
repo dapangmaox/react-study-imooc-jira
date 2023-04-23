@@ -16,12 +16,16 @@ const defaultConfig = {
   throwOnError: false,
 };
 
-export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defaultConfig) => {
+export const useAsync = <D>(
+  initialState?: State<D>,
+  initialConfig?: typeof defaultConfig
+) => {
   const config = { ...defaultConfig, ...initialConfig };
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState,
   });
+  const [retry, setRetry] = useState(() => () => {});
 
   const setData = (data: D) =>
     setState({
@@ -38,10 +42,20 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     });
 
   // run 用来触发异步请求
-  const run = (promise: Promise<D>) => {
+  const run = (
+    promise: Promise<D>,
+    runConfig?: {
+      retry: () => Promise<D>;
+    }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error('请传入 Promise 类型数据');
     }
+    setRetry(() => () => {
+      if (runConfig?.retry) {
+        run(runConfig.retry(), runConfig);
+      }
+    });
     setState({ ...state, stat: 'loading' });
     return promise
       .then((data) => {
@@ -63,6 +77,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     run,
     setData,
     setError,
+    retry,
     ...state,
   };
 };
